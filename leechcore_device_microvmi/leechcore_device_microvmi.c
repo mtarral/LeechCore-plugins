@@ -111,5 +111,6 @@ error_exit:
         free((void*)init_params.common.vm_name);
     if (init_params.kvm.unix_socket.path)
         free((void*)init_params.kvm.unix_socket.path);
+    DeviceMicrovmi_Close(ctxLC);
     return false;
 }
