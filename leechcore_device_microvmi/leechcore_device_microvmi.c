@@ -89,6 +89,14 @@ EXPORTED_FUNCTION BOOL LcPluginCreate(_Inout_ PLC_CONTEXT ctxLC, _Out_opt_ PPLC_
 
     // setup config
     ctxLC->Config.fVolatile = true;
+    // set max physical address
+    uint64_t max_addr = 0;
+    if (!microvmi_get_max_physical_addr(microvmi_driver, &max_addr)) {
+      lcprintf(ctxLC, "Failed to get max physical address\n");
+      goto error_exit;
+    }
+    lcprintfvv(ctxLC, "MICROVMI: max physical address: 0x%lx\n", max_addr);
+    ctxLC->Config.paMax = max_addr;
     // set callback functions
     ctxLC->pfnReadContigious = DeviceMicrovmi_ReadContigious;
     ctxLC->pfnClose = DeviceMicrovmi_Close;
