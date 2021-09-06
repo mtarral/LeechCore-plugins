@@ -1,6 +1,6 @@
 CC=gcc
-CFLAGS  += -I. -I../includes -D LINUX -shared -fPIC -fvisibility=hidden
-LDFLAGS += -g -shared -lmicrovmi
+CFLAGS  += -I. -I../includes -D LINUX -shared -fPIC -fvisibility=hidden -g
+LDFLAGS += -shared -lmicrovmi
 DEPS = 
 OBJ = leechcore_device_microvmi.o
 
