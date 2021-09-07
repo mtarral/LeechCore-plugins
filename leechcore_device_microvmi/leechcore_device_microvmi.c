@@ -18,6 +18,17 @@ static VOID DeviceMicrovmi_ReadContigious(PLC_READ_CONTIGIOUS_CONTEXT ctxRC) {
     ctxRC->cbRead = (DWORD)bytes_read;
 }
 
+static BOOL DeviceMicrovmi_WriteContigious(_In_ PLC_CONTEXT ctxLC, _In_ QWORD qwAddr, _In_ DWORD cb, _In_reads_(cb) PBYTE pb)
+{
+    // write contigious memory
+    void *driver = ctxLC->hDevice;
+    if (!microvmi_write_physical(driver, qwAddr, pb, cb)) {
+        lcprintfvvv(ctxLC, "Failed to write %d bytes in physical memory at 0x%llx\n",
+            cb, qwAddr);
+    }
+    return true;
+}
+
 static VOID DeviceMicrovmi_Close(_Inout_ PLC_CONTEXT ctxLC) {
     // close driver
     void *driver = ctxLC->hDevice;
@@ -104,6 +115,7 @@ _Success_(return ) EXPORTED_FUNCTION BOOL
     ctxLC->Config.paMax = max_addr;
     // set callback functions
     ctxLC->pfnReadContigious = DeviceMicrovmi_ReadContigious;
+    ctxLC->pfnWriteContigious = DeviceMicrovmi_WriteContigious;
     ctxLC->pfnClose = DeviceMicrovmi_Close;
     // status
     lcprintfv(ctxLC, "MICROVMI: initialized.\n");
