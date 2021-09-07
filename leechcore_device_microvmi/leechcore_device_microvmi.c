@@ -66,6 +66,9 @@ static bool parse_url_args(PLC_CONTEXT ctxLC,
                             strlen("kvm_unix_socket"))) {
             init_params->kvm.tag = UnixSocket;
             init_params->kvm.unix_socket.path = strdup(param_value);
+        } else if (!strncmp(param_name, "memflow_connector_name",
+                            strlen("memflow_connector_name"))) {
+            init_params->memflow.connector_name = strdup(param_value);
         } else {
             lcprintfv(ctxLC, "MICROVMI: unhandled init parameter: %s\n",
                       param_name);
@@ -131,6 +134,8 @@ error_exit:
         free((void *)init_params.common.vm_name);
     if (init_params.kvm.unix_socket.path)
         free((void *)init_params.kvm.unix_socket.path);
+    if (init_params.memflow.connector_name)
+        free((void *)init_params.memflow.connector_name);
     DeviceMicrovmi_Close(ctxLC);
     return false;
 }
