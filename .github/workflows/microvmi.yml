@@ -7,6 +7,14 @@ on:
   pull_request:
 
 jobs:
+  format:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: clang-format
+        run: clang-format --style=file leechcore_device_microvmi/*.[ch]
+
   microvmi:
     runs-on: ubuntu-latest
     steps:
