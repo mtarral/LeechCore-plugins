@@ -40,14 +40,17 @@ static VOID DeviceMicrovmi_Close(_Inout_ PLC_CONTEXT ctxLC) {
 
 static bool parse_url_args(PLC_CONTEXT ctxLC,
                            DriverInitParamsFFI *init_params) {
+    // this function parses the device URL string and fills the init_params struct in consequence
+    // the URL syntax is the following
+    //      microvmi://param1=value1&param2=value2
+
     const char *url_device = ctxLC->Config.szDevice;
     // check URL scheme
     if (strncmp(url_device, PLUGIN_URL_SCHEME, strlen(PLUGIN_URL_SCHEME))) {
         // no match, quit
         return false;
     }
-    // url syntax
-    // microvmi://param1=value1&param2=value2
+    // clone URL as strtok will modify it in place
     char *szDevice_start_params =
         strdup(url_device + strlen(PLUGIN_URL_SCHEME));
     // split on '&'
