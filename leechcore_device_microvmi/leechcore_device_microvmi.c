@@ -63,7 +63,7 @@ static bool parse_url_args(PLC_CONTEXT ctxLC,
         if (!strncmp(param_name, "vm_name", strlen("vm_name"))) {
             // free previous value if any
             if (init_params->common.vm_name) {
-                free((void*)init_params->common.vm_name);
+                free(init_params->common.vm_name);
                 init_params->common.vm_name = NULL;
             }
             init_params->common.vm_name = strdup(param_value);
@@ -72,7 +72,7 @@ static bool parse_url_args(PLC_CONTEXT ctxLC,
             init_params->kvm.tag = UnixSocket;
             // free previous value if any
             if (init_params->kvm.unix_socket.path) {
-                free((void*)init_params->kvm.unix_socket.path);
+                free(init_params->kvm.unix_socket.path);
                 init_params->kvm.unix_socket.path = NULL;
             }
             init_params->kvm.unix_socket.path = strdup(param_value);
@@ -80,7 +80,7 @@ static bool parse_url_args(PLC_CONTEXT ctxLC,
                             strlen("memflow_connector_name"))) {
             // free previous value if any
             if (init_params->memflow.connector_name) {
-                free((void*)init_params->memflow.connector_name);
+                free(init_params->memflow.connector_name);
                 init_params->memflow.connector_name = NULL;
             }
             init_params->memflow.connector_name = strdup(param_value);
@@ -146,11 +146,11 @@ error_exit:
         rs_cstring_free((char *)init_error);
     // free init_params
     if (init_params.common.vm_name)
-        free((void *)init_params.common.vm_name);
+        free(init_params.common.vm_name);
     if (init_params.kvm.unix_socket.path)
-        free((void *)init_params.kvm.unix_socket.path);
+        free(init_params.kvm.unix_socket.path);
     if (init_params.memflow.connector_name)
-        free((void *)init_params.memflow.connector_name);
+        free(init_params.memflow.connector_name);
     DeviceMicrovmi_Close(ctxLC);
     return false;
 }
