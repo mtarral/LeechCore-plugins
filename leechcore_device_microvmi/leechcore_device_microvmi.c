@@ -61,13 +61,28 @@ static bool parse_url_args(PLC_CONTEXT ctxLC,
         char *param_name = strtok_r(token, "=", &saveptr2);
         char *param_value = strtok_r(NULL, "=", &saveptr2);
         if (!strncmp(param_name, "vm_name", strlen("vm_name"))) {
+            // free previous value if any
+            if (init_params->common.vm_name) {
+                free((void*)init_params->common.vm_name);
+                init_params->common.vm_name = NULL;
+            }
             init_params->common.vm_name = strdup(param_value);
         } else if (!strncmp(param_name, "kvm_unix_socket",
                             strlen("kvm_unix_socket"))) {
             init_params->kvm.tag = UnixSocket;
+            // free previous value if any
+            if (init_params->kvm.unix_socket.path) {
+                free((void*)init_params->kvm.unix_socket.path);
+                init_params->kvm.unix_socket.path = NULL;
+            }
             init_params->kvm.unix_socket.path = strdup(param_value);
         } else if (!strncmp(param_name, "memflow_connector_name",
                             strlen("memflow_connector_name"))) {
+            // free previous value if any
+            if (init_params->memflow.connector_name) {
+                free((void*)init_params->memflow.connector_name);
+                init_params->memflow.connector_name = NULL;
+            }
             init_params->memflow.connector_name = strdup(param_value);
         } else {
             lcprintfv(ctxLC, "MICROVMI: unhandled init parameter: %s\n",
