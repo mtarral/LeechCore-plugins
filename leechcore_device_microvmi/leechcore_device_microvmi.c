@@ -6,7 +6,7 @@
 #define PLUGIN_URL_SCHEME "microvmi://"
 
 static VOID DeviceMicrovmi_ReadContigious(PLC_READ_CONTIGIOUS_CONTEXT ctxRC) {
-    // read contigious physical memory
+    // read contiguous physical memory
     PLC_CONTEXT ctxLC = ctxRC->ctxLC;
     void *driver = ctxLC->hDevice;
     uint64_t bytes_read = 0;
@@ -21,7 +21,7 @@ static VOID DeviceMicrovmi_ReadContigious(PLC_READ_CONTIGIOUS_CONTEXT ctxRC) {
 static BOOL DeviceMicrovmi_WriteContigious(_In_ PLC_CONTEXT ctxLC,
                                            _In_ QWORD qwAddr, _In_ DWORD cb,
                                            _In_reads_(cb) PBYTE pb) {
-    // write contigious memory
+    // write contiguous memory
     void *driver = ctxLC->hDevice;
     if (!microvmi_write_physical(driver, qwAddr, pb, cb)) {
         lcprintfvvv(ctxLC,
