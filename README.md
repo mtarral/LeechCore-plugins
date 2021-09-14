@@ -76,3 +76,68 @@ Allows LeechCore to connect to a SP605 FPGA board exposing a TCP server on its n
 Place leechcore_device_sp605tcp.[so|dll] alongside leechcore.[so|dll].
 
 
+## leechcore_device_microvmi
+
+#### Authors
+- Ulf Frisk
+- Mathieu Tarral ([@mtarral](https://github.com/mtarral)) - [ANSSI](https://www.ssi.gouv.fr/)
+
+#### Supported Platforms
+- Linux
+
+#### Overview
+
+Allows LeechCore to peek into the live physical memory of virtual machines on
+- Xen
+- KVM (patched via [KVM-VMI](https://github.com/KVM-VMI/kvm-vmi))
+- VirtualBox (patched via [icebox](https://github.com/thalium/icebox))
+- QEMU (upstream, using [memflow](https://github.com/memflow/memflow) via [qemu_procfs](https://github.com/memflow/memflow-qemu-procfs) connector)
+
+#### Requirements
+
+- [libmicrovmi](https://github.com/Wenzel/libmicrovmi)
+
+A debian package can be found on the [Github release](https://github.com/Wenzel/libmicrovmi/releases)
+
+#### Documentation
+
+- URL device scheme: `microvmi://param1=value1&param2=value2`
+- Debugging: `export RUST_LOG=debug`
+
+##### Xen
+
+Parameters:
+- `vm_name`: name of the VM
+
+~~~
+sudo -E ./memprocfs -mount xxx -device 'microvmi://vm_name=win10'
+~~~
+
+##### KVM
+
+Parameters:
+- `vm_name`: name of the VM
+- `kvm_unix_socket`: KVMi UNIX socket  (see KVM-VMI project)
+
+~~~
+./memprocfs -mount xxx -device 'microvmi://vm_name=win10&kvm_unix_socket=/tmp/introspector'
+~~~
+
+##### VirtualBox
+
+Parameters:
+- `vm_name`: name of the VM
+
+~~~
+./memprocfs -mount xxx -device 'microvmi://vm_name=win10'
+~~~
+
+##### QEMU
+
+Parameters:
+- `memflow_connector_name`: `qemu_procfs`
+- `vm_name` (optional): name of the VM
+
+~~~
+sudo -E ./memprocfs -mount xxx -device 'microvmi://memflow_connector_name=qemu_procfs'
+~~~
