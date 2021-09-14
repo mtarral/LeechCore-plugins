@@ -40,7 +40,7 @@ static VOID DeviceMicrovmi_Close(_Inout_ PLC_CONTEXT ctxLC) {
 
 static bool parse_url_args(PLC_CONTEXT ctxLC,
                            DriverInitParamsFFI *init_params) {
-    char *url_device = ctxLC->Config.szDevice;
+    const char *url_device = ctxLC->Config.szDevice;
     // check URL scheme
     if (strncmp(url_device, PLUGIN_URL_SCHEME, strlen(PLUGIN_URL_SCHEME))) {
         // no match, quit
@@ -59,7 +59,11 @@ static bool parse_url_args(PLC_CONTEXT ctxLC,
         // split on '='
         char *saveptr2 = NULL;
         char *param_name = strtok_r(token, "=", &saveptr2);
+        if (!param_name)
+            continue;
         char *param_value = strtok_r(NULL, "=", &saveptr2);
+        if (!param_value)
+            continue;
         if (!strncmp(param_name, "vm_name", strlen("vm_name"))) {
             // free previous value if any
             if (init_params->common.vm_name) {
