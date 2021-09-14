@@ -1,5 +1,6 @@
 CC=gcc
-CFLAGS  += -I. -I../includes -D LINUX -shared -fPIC -fvisibility=hidden -g
+# -Wno-unused-variable -> unused variable in leechcore.h
+CFLAGS  += -I. -I../includes -D LINUX -shared -fPIC -fvisibility=hidden -g -Wall -Werror -Wextra -Wno-unused-variable
 LDFLAGS += -shared -lmicrovmi
 DEPS = 
 OBJ = leechcore_device_microvmi.o
