@@ -87,19 +87,14 @@ Place leechcore_device_sp605tcp.[so|dll] alongside leechcore.[so|dll].
 
 #### Overview
 
-Allows LeechCore to peek into the live physical memory of virtual machines on
-- Xen
-- KVM (patched via [KVM-VMI](https://github.com/KVM-VMI/kvm-vmi))
-- VirtualBox (patched via [icebox](https://github.com/thalium/icebox))
-- QEMU (upstream, using [memflow](https://github.com/memflow/memflow) via [qemu_procfs](https://github.com/memflow/memflow-qemu-procfs) connector)
+Allows LeechCore to peek into the live physical memory of virtual machines
+supported by [libmicrovmi](https://wenzel.github.io/libmicrovmi/reference/drivers.html)
 
 #### Requirements
 
-- [libmicrovmi](https://github.com/Wenzel/libmicrovmi)
+- [libmicrovmi](https://github.com/Wenzel/libmicrovmi): see the [documentation](https://wenzel.github.io/libmicrovmi/tutorial/installation.html)
 
-A debian package can be found on the [Github release](https://github.com/Wenzel/libmicrovmi/releases)
-
-#### Documentation
+#### Plugin documentation
 
 - URL device scheme: `microvmi://param1=value1&param2=value2`
 - Debugging: `export RUST_LOG=debug`
